@@ -1,16 +1,16 @@
 {
   "name": "bubo",
-  "version": "0.1",
+  "version": "0.1.0",
   "description": "bubo is a HipChat bot that listens for mentions of JIRA tickets by issue key and expands the reference into something more readable.",
   "keywords": ["bot", "hipchat"],
-  "homepage": "http://github.com/safarijv/keith",
-  "author": "Keith Fahlgren <keith@safaribooksonline.com> (http://twitter.com/cjoudrey)",
+  "homepage": "http://github.com/safarijv/bubo",
+  "author": "Keith Fahlgren <keith@safaribooksonline.com>",
   "repository": {
-    "type":"git",
-    "url":"git://github.com/safarijv/keith"
+    "type": "git",
+    "url": "git://github.com/safarijv/bubo"
   },
   "dependencies": {
-    "wubot": ">= 0.8",
+    "wobot": "git://github.com/uxdiogenes/wobot.git",
     "jira-api": ">= 0.2.2"
   },
   "main": "bubo_bot.js",
