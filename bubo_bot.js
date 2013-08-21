@@ -14,7 +14,7 @@ b.connect();
 b.onConnect(function() {
   var self = this;
   console.log(' -=- > Connect');
-  config.roomsToJoin.forEach(function(room) {
+  config.hipchatRoomsToJoin.forEach(function(room) {
     console.log(' -=- > Joining default room ' + room);
     self.join(room);
   });
