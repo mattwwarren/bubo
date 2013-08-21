@@ -20,7 +20,7 @@ var runtimeOptions = {
   jiraPassword: process.env.JIRA_PASSWORD || config.jiraPassword
 };
 runtimeOptions.hipchatRoomsToJoin = process.env.HIPCHAT_ROOMS_TO_JOIN ? process.env.HIPCHAT_ROOMS_TO_JOIN.split(',') : config.hipchatRoomsToJoin;
-runtimeOptions.jiraProjectRe = process.env.JIRA_PROJECT_RE ? JSON.parse(process.env.JIRA_PROJECT_RE) : config.jiraProjectRe;
+runtimeOptions.jiraProjectRe = process.env.JIRA_PROJECT_RE ? new RegExp(process.env.JIRA_PROJECT_RE) : config.jiraProjectRe;
 
 
 var b = new wobot.Bot({
