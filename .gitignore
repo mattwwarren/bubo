@@ -1,0 +1,16 @@
+config.js
+node_modules
+
+*.swp
+*.pyc
+*.swo
+*.pyo
+.tox
+*.egg-info
+*_db
+.#*
+\#*
+*~
+.sass-cache
+.DS_Store
+npm-debug.log

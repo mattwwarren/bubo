@@ -1,0 +1,18 @@
+/* Keep outside of GitHub! */
+var config = {
+  hipchatRoomsToJoin: [' HIPCHAT JABBER ROOM ID@conf.hipchat.com', // see XMPP/Jabber page on your account
+                       ' ANOTHER ROOM@conf.hipchat.com',
+                       ' THIRD ROOM@conf.hipchat.com'],
+  hipchatUser: 'HipChat ID HERE @chat.hipchat.com', // see XMPP/Jabber page on your account
+  hipchatPassword: ' YOUR HIPCHAT PASSWORD HERE',
+
+  jiraBrowseUrl: 'https://something.atlassian.net/browse/',
+  jiraHostname: 'something.atlassian.net',
+  jiraUsername: " JIRA USERNAME HERE USUALLY firstlast",
+  jiraPassword: " JIRA PASSWORD HERE ",
+
+  // Regular expression that matches the your JIRA project keys
+  jiraProjectRe: /((?:ABC|DEF|HIJ)-[0-9]+)/g
+};
+
+module.exports = config;
