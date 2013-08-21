@@ -1,1 +1,1 @@
-web: node bubo_bot.js
+worker: node bubo_bot.js
