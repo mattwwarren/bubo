@@ -1,12 +1,31 @@
-var config = require('./config');
+try {
+  var config = require('./config');
+  console.log(' -=- > Loading configuration from config.js');
+}
+catch (e) {
+  console.log(' -=- > Loading configuration from environment variables');
+}
 var https = require('https');
 var jira = require('jira-api');
 var wobot = require('wobot');
 
 
+// Pull this in now to allow either file-based config (checked second) or environment variables (checked first)
+var runtimeOptions = {
+  hipchatRoomsToJoin: process.env.HIPCHAT_ROOMS_TO_JOIN || config.hipchatRoomsToJoin,
+  hipchatUser: process.env.HIPCHAT_USER || config.hipchatUser,
+  hipchatPassword: process.env.HIPCHAT_PASSWORD || config.hipchatPassword,
+  jiraBrowseUrl: process.env.JIRA_BROWSE_URL || config.jiraBrowseUrl,
+  jiraHostname: process.env.JIRA_HOSTNAME || config.jiraHostname,
+  jiraUsername: process.env.JIRA_USERNAME || config.jiraUsername,
+  jiraPassword: process.env.JIRA_PASSWORD || config.jiraPassword,
+  jiraProjectRe: process.env.JIRA_PROJECT_RE || config.jiraProjectRe
+};
+
+
 var b = new wobot.Bot({
-  jid: config.hipchatUser + "/bot",
-  password: config.hipchatPassword
+  jid: runtimeOptions.hipchatUser + "/bot",
+  password: runtimeOptions.hipchatPassword
 });
 
 b.connect();
@@ -14,7 +33,7 @@ b.connect();
 b.onConnect(function() {
   var self = this;
   console.log(' -=- > Connect');
-  config.hipchatRoomsToJoin.forEach(function(room) {
+  runtimeOptions.hipchatRoomsToJoin.forEach(function(room) {
     console.log(' -=- > Joining default room ' + room);
     self.join(room);
   });
@@ -28,7 +47,7 @@ b.onInvite(function(roomJid, fromJid, reason) {
 
 b.onMessage(function(channel, from, message) {
   var self = this;
-  var matches = message.match(config.jiraProjectRe);
+  var matches = message.match(runtimeOptions.jiraProjectRe);
   if (!matches) {
     return;
   }
@@ -36,9 +55,9 @@ b.onMessage(function(channel, from, message) {
   console.log(' -=- > Looking up JIRA details for ' + message + ' with matches: ' + matches);
   matches.forEach(function(jiraKey) { 
     var options = {
-      auth: config.jiraUsername + ':' + config.jiraPassword,
+      auth: runtimeOptions.jiraUsername + ':' + runtimeOptions.jiraPassword,
       headers: { 'accept': 'application/json' },
-      hostname: config.jiraHostname,
+      hostname: runtimeOptions.jiraHostname,
       method: 'GET',
       path: '/rest/api/2/issue/' + jiraKey,
       port: 443
@@ -54,7 +73,7 @@ b.onMessage(function(channel, from, message) {
       res.on('end', function() {
         try {
           var jiraData = JSON.parse(body);
-          var clarification = config.jiraBrowseUrl + jiraData.key + ': “' + jiraData.fields.summary + '” marked as ' + jiraData.fields.status.name + ' and assigned to ' + jiraData.fields.assignee.displayName;
+          var clarification = runtimeOptions.jiraBrowseUrl + jiraData.key + ': “' + jiraData.fields.summary + '” marked as ' + jiraData.fields.status.name + ' and assigned to ' + jiraData.fields.assignee.displayName;
           self.message(channel, clarification);
         }
         catch (e) {

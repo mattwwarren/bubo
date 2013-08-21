@@ -55,3 +55,6 @@ Typical output:
     -=- > Invited to and joining 1_code_review@conf.hipchat.com by 1_8@chat.hipchat.com: hi @jirabot 
     -=- > Looking up JIRA details for How about ABC-1203 with matches: ABC-1203
 
+Heroku:
+
+To run on Heroku, do the normal (?) things but set the environment variables with `config:add` instead of config.js.
