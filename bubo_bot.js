@@ -12,15 +12,15 @@ var wobot = require('wobot');
 
 // Pull this in now to allow either file-based config (checked second) or environment variables (checked first)
 var runtimeOptions = {
-  hipchatRoomsToJoin: process.env.HIPCHAT_ROOMS_TO_JOIN || config.hipchatRoomsToJoin,
   hipchatUser: process.env.HIPCHAT_USER || config.hipchatUser,
   hipchatPassword: process.env.HIPCHAT_PASSWORD || config.hipchatPassword,
   jiraBrowseUrl: process.env.JIRA_BROWSE_URL || config.jiraBrowseUrl,
   jiraHostname: process.env.JIRA_HOSTNAME || config.jiraHostname,
   jiraUsername: process.env.JIRA_USERNAME || config.jiraUsername,
-  jiraPassword: process.env.JIRA_PASSWORD || config.jiraPassword,
-  jiraProjectRe: process.env.JIRA_PROJECT_RE || config.jiraProjectRe
+  jiraPassword: process.env.JIRA_PASSWORD || config.jiraPassword
 };
+runtimeOptions.hipchatRoomsToJoin = process.env.HIPCHAT_ROOMS_TO_JOIN ? process.env.HIPCHAT_ROOMS_TO_JOIN.split(',') : config.hipchatRoomsToJoin;
+runtimeOptions.jiraProjectRe = process.env.JIRA_PROJECT_RE ? JSON.parse(process.env.JIRA_PROJECT_RE) : config.jiraProjectRe;
 
 
 var b = new wobot.Bot({
