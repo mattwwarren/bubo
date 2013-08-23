@@ -56,6 +56,7 @@ b.onMessage(function(channel, from, message) {
   console.log(' -=- > Looking up JIRA details for ' + message + ' with matches: ' + matches);
   matches.forEach(function(jiraKey) { 
     if (alreadyProcessed.indexOf(jiraKey) < 0) {
+      alreadyProcessed.push(jiraKey);
       var options = {
         auth: runtimeOptions.jiraUsername + ':' + runtimeOptions.jiraPassword,
         headers: { 'accept': 'application/json' },
@@ -83,7 +84,6 @@ b.onMessage(function(channel, from, message) {
             console.error(e);
             self.message(channel, sorry);
           }
-          alreadyProcessed.push(jiraKey);
         });
       });
       req.end();
