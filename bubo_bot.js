@@ -47,6 +47,7 @@ b.onInvite(function(roomJid, fromJid, reason) {
 
 b.onMessage(function(channel, from, message) {
   var self = this;
+  var alreadyProcessed = [];
   var matches = message.match(runtimeOptions.jiraProjectRe);
   if (!matches) {
     return;
@@ -54,39 +55,42 @@ b.onMessage(function(channel, from, message) {
 
   console.log(' -=- > Looking up JIRA details for ' + message + ' with matches: ' + matches);
   matches.forEach(function(jiraKey) { 
-    var options = {
-      auth: runtimeOptions.jiraUsername + ':' + runtimeOptions.jiraPassword,
-      headers: { 'accept': 'application/json' },
-      hostname: runtimeOptions.jiraHostname,
-      method: 'GET',
-      path: '/rest/api/2/issue/' + jiraKey,
-      port: 443
-    };
+    if (alreadyProcessed.indexOf(jiraKey) < 0) {
+      var options = {
+        auth: runtimeOptions.jiraUsername + ':' + runtimeOptions.jiraPassword,
+        headers: { 'accept': 'application/json' },
+        hostname: runtimeOptions.jiraHostname,
+        method: 'GET',
+        path: '/rest/api/2/issue/' + jiraKey,
+        port: 443
+      };
 
-    var body = '';
-    var req = https.request(options, function(res) {
+      var body = '';
+      var req = https.request(options, function(res) {
 
-      res.on('data', function(chunk) {
-        body += chunk;
+        res.on('data', function(chunk) {
+          body += chunk;
+        });
+
+        res.on('end', function() {
+          try {
+            var jiraData = JSON.parse(body);
+            var clarification = runtimeOptions.jiraBrowseUrl + jiraData.key + ': “' + jiraData.fields.summary + '” marked as ' + jiraData.fields.status.name + ' and assigned to ' + jiraData.fields.assignee.displayName;
+            self.message(channel, clarification);
+          }
+          catch (e) {
+            var sorry = '/me could not find ' + jiraKey;
+            console.error(e);
+            self.message(channel, sorry);
+          }
+          alreadyProcessed.push(jiraKey);
+        });
       });
+      req.end();
 
-      res.on('end', function() {
-        try {
-          var jiraData = JSON.parse(body);
-          var clarification = runtimeOptions.jiraBrowseUrl + jiraData.key + ': “' + jiraData.fields.summary + '” marked as ' + jiraData.fields.status.name + ' and assigned to ' + jiraData.fields.assignee.displayName;
-          self.message(channel, clarification);
-        }
-        catch (e) {
-          var sorry = '/me could not find ' + jiraKey;
-          console.error(e);
-          self.message(channel, sorry);
-        }
+      req.on('error', function(e) {
+        console.error(e);
       });
-    });
-    req.end();
-
-    req.on('error', function(e) {
-      console.error(e);
-    });
+    }
   });
 });
