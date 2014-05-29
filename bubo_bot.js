@@ -77,7 +77,7 @@ b.onMessage(function(channel, from, message) {
   var philosophy_matches = message.match(/(meaning of life|answer to life|life(, the)? universe(,| and|, and)? everything|answer to (the )? ultimate question)/g);
   var who_matches = message.match(/who are you|what are you|do you do/g);
   var make_matches = message.match(/make me/g);
-  var swear_matches = message.match(/ ass | bastard | bitch | fuck | shit /gi);
+  var swear_matches = message.match(/(^| )(ass|bastard|bitch|fuck|shit)($| )/gi);
   if (swear_matches) {
       var woah_now = "I'm sorry, I don't respond well to cursing.";
       self.message(channel, woah_now);
