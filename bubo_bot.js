@@ -74,8 +74,9 @@ b.onMessage(function(channel, from, message) {
   var alreadyProcessed = [];
   var ticket_matches = message.match(runtimeOptions.bbProjectRe);
   var save_matches = message.match(/(save)/g);
-  var philosophy_matches = message.match(/(meaning of life|answer to life|life(, the)? universe(,| and|, and)? everything|answer to (the )? ultimate question)/g)
-  var who_matches = message.match(/who are you|what are you|do you do/g)
+  var philosophy_matches = message.match(/(meaning of life|answer to life|life(, the)? universe(,| and|, and)? everything|answer to (the )? ultimate question)/g);
+  var who_matches = message.match(/who are you|what are you|do you do/g);
+  var make_matches = message.match(/make me/g);
   if (ticket_matches) {
       console.log(' -=- > Looking up JIRA details for ' + message + ' with matches: ' + ticket_matches);
       ticket_matches.forEach(function(issueKey) {
