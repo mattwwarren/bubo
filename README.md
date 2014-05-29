@@ -10,14 +10,14 @@ What does it do?
   1. Joins a room (set defaults in `config.js`)
   1. Checks each message for an upper-case JIRA issue key (`ABC-3`) or BitBucket issue key (`repo-5`)
   1. Responds with some contextual details from JIRA (`https://something.atlassian.net/browse/ABC-3: “Support streaming reading” marked as Closed and assigned to Keith Fahlgren`)
-  ** OR details from BitBucket (https://bitbucket.org/someone/repo/issue/5: "Something something broken stuff" marked as resolved and assigned to Matt Warren`)
+    * OR details from BitBucket (https://bitbucket.org/someone/repo/issue/5: "Something something broken stuff" marked as resolved and assigned to Matt Warren`)
 
 What if I want it in a new room?
 
   * In a public room, mention it directly with `@jirabot` and wait for it to join
   * In a private room, invite it using the HipChat invite menu and wait for it to join
   * Add it to the defaults in `config.js` if you want
-  ** Alternatively, to save the running config, use `@jirabot save` and find a `config.runtime.js` in the runtime directory
+    * Alternatively, to save the running config, use `@jirabot save` and find a `config.runtime.js` in the runtime directory
 
 What JIRA projects does it know about?
   
