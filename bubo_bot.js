@@ -141,7 +141,7 @@ b.onMessage(function(channel, from, message) {
       var what_am_i = "I'm just a simple node js script running via pm2 in the cloud!";
       self.message(channel, what_am_i);
   } else if (make_matches) {
-      var sandwich = message.replace(/.*make me (a|an )?/g, "");
+      var sandwich = message.replace(/.*make me (a(n)? )?/g, "");
       var doit_yourself = "Why don't you make your own " + sandwich + "?";
       var onit = "Okay, I'll get right on making your " + sandwich + "!";
       var rando = Math.floor((Math.random() * 10) + 1);
