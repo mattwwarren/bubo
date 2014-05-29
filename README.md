@@ -1,23 +1,28 @@
-bubo is a HipChat bot that listens for mentions of JIRA tickets by issue key and expands the
+bubo is a HipChat bot that listens for mentions of JIRA or BitBucket tickets by issue key and expands the
 reference into something more readable.
 
+This tool was originally created by Keith Fahlgren of Safari Books Online. It was hacked and slashed by
+Matt Warren to function with BitBucket. The current version will only connect to JIRA or BitBucket,
+not both!
 
 What does it do?
 
   1. Joins a room (set defaults in `config.js`)
-  1. Checks each message for an upper-case JIRA issue key (`ABC-3`)
+  1. Checks each message for an upper-case JIRA issue key (`ABC-3`) or BitBucket issue key (`repo-5`)
   1. Responds with some contextual details from JIRA (`https://something.atlassian.net/browse/ABC-3: “Support streaming reading” marked as Closed and assigned to Keith Fahlgren`)
+  ** OR details from BitBucket (https://bitbucket.org/someone/repo/issue/5: "Something something broken stuff" marked as resolved and assigned to Matt Warren`)
 
 What if I want it in a new room?
 
   * In a public room, mention it directly with `@jirabot` and wait for it to join
   * In a private room, invite it using the HipChat invite menu and wait for it to join
   * Add it to the defaults in `config.js` if you want
-
+  ** Alternatively, to save the running config, use `@jirabot save` and find a `config.runtime.js` in the runtime directory
 
 What JIRA projects does it know about?
   
   * Every JIRA project that you explicitly mention in `config.js`
+  * Every BitBucket project it has access to for the BitBucket host user in `config.js`
 
 What if I don't want it in a room?
 
@@ -33,6 +38,11 @@ JIRA setup:
   1. Have a JIRA user
   1. Write down the JIRA user details in `config.js`
 
+BitBucket setup:
+
+  1. Create a BitBucket user
+  1. Write down the BitBucket user details in `config.js`
+
 Developer setup:
 
     mkdir node_modules
@@ -43,6 +53,7 @@ Developer setup:
 Running the bot:
 
     node bubo_bot.js  # runs until it dies, needs a manager to stay up forever
+ * pm2 could serve this purpose well. How-to to follow.
 
 Typical output:
 
