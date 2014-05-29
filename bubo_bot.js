@@ -81,7 +81,7 @@ b.onMessage(function(channel, from, message) {
   if (swear_matches) {
       var woah_now = "I'm sorry, I don't respond well to cursing.";
       self.message(channel, woah_now);
-  if (ticket_matches) {
+  } else if (ticket_matches) {
       console.log(' -=- > Looking up JIRA details for ' + message + ' with matches: ' + ticket_matches);
       ticket_matches.forEach(function(issueKey) {
         if (alreadyProcessed.indexOf(issueKey) < 0) {
