@@ -75,6 +75,7 @@ b.onMessage(function(channel, from, message) {
   var ticket_matches = message.match(runtimeOptions.bbProjectRe);
   var save_matches = message.match(/(save)/g);
   var philosophy_matches = message.match(/(meaning of life|answer to life|life(, the)? universe(,| and|, and)? everything|answer to (the )? ultimate question)/g)
+  var who_matches = message.match(/who are you|what are you|do you do/g)
   if (ticket_matches) {
       console.log(' -=- > Looking up JIRA details for ' + message + ' with matches: ' + ticket_matches);
       ticket_matches.forEach(function(issueKey) {
@@ -135,6 +136,9 @@ b.onMessage(function(channel, from, message) {
   } else if (philosophy_matches) {
       var the_answer = "42";
       self.message(channel, the_answer);
+  } else if (who_matches) {
+      var what_am_i = "I'm just a simple node js script running via pm2 in the cloud!";
+      self.message(channel, what_am_i);
   } else {
       return
   }
