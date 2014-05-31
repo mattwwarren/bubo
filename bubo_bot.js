@@ -15,10 +15,11 @@ var debug = process.env.NODE_DEBUG || config.debug || false;
 
 // Grab common config options
 var runtimeOptions = {
+  mentionName: process.env.MENTION_NAME || config.mentionName,
   hipchatUser: process.env.HIPCHAT_USER || config.hipchatUser,
   hipchatPassword: process.env.HIPCHAT_PASSWORD || config.hipchatPassword,
   tracker: process.env.TRACKER || config.tracker
-}
+};
 
 // Are we connecting to BitBucket? Otherwise, assume JIRA.
 if (runtimeOptions.tracker == 'bitbucket'){
@@ -73,11 +74,15 @@ b.onMessage(function(channel, from, message) {
   var self = this;
   var alreadyProcessed = [];
   var ticket_matches = message.match(runtimeOptions.bbProjectRe);
-  var save_matches = message.match(/(save)/g);
-  var philosophy_matches = message.match(/(meaning of life|answer to life|life(, the)? universe(,| and|, and)? everything|answer to (the )? ultimate question)/g);
-  var who_matches = message.match(/who are you|what are you|do you do/g);
-  var make_matches = message.match(/make me/g);
-  var swear_matches = message.match(/(^| )(ass|bastard|bitch|fuck|shit)($| )/gi);
+  var save_re = new RegExp(runtimeOptions.mentionName + ".*save", "gi");
+  var save_matches = message.match(save_re);
+  var philosophy_matches = message.match(/(meaning of life|answer to life|life(, the)? universe[,| and|, and]? everything|answer to (the )? ultimate question)/g);
+  var who_re = new RegExp(runtimeOptions.mentionName + ".*[who are you|what are you|do you do]", "gi");
+  var who_matches = message.match(who_re);
+  var make_re = new RegExp(runtimeOptions.mentionName + ".*make me", "gi");
+  var make_matches = message.match(make_re);
+  var swear_re = new RegExp(runtimeOptions.mentionName + ".*(ass(hole)?|bastard|bitch|fuck|shit)(\W|$)", "gim")
+  var swear_matches = message.match(swear_re);
   if (swear_matches) {
       var woah_now = "I'm sorry, I don't respond well to cursing.";
       self.message(channel, woah_now);

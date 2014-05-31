@@ -1,5 +1,6 @@
 /* Keep outside of GitHub! */
 var config = {
+  mentionName: 'bubobot' // Set this to the mention name of your bot
   hipchatRoomsToJoin: [' HIPCHAT JABBER ROOM ID@conf.hipchat.com', // see XMPP/Jabber page on your account
                        ' ANOTHER ROOM@conf.hipchat.com',
                        ' THIRD ROOM@conf.hipchat.com'],
