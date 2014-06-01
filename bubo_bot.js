@@ -27,13 +27,13 @@ if (runtimeOptions.tracker == 'bitbucket'){
     runtimeOptions.bbOwner = process.env.BB_OWNER || config.bbOwner;
     runtimeOptions.bbUsername = process.env.BB_USERNAME || config.bbUsername;
     runtimeOptions.bbPassword = process.env.BB_PASSWORD || config.bbPassword;
-    runtimeOptions.bbProjectRe = process.env.BB_PROJECT_RE ? new RegExp(process.env.BB_PROJECT_RE, "g") : config.bbProjectRe;
+    runtimeOptions.bbProjectRe = process.env.BB_PROJECT_RE ? new RegExp(process.env.BB_PROJECT_RE, "gi") : config.bbProjectRe;
 } else {
     runtimeOptions.jiraBrowseUrl = process.env.JIRA_BROWSE_URL || config.jiraBrowseUrl;
     runtimeOptions.jiraHostname = process.env.JIRA_HOSTNAME || config.jiraHostname;
     runtimeOptions.jiraUsername = process.env.JIRA_USERNAME || config.jiraUsername;
     runtimeOptions.jiraPassword = process.env.JIRA_PASSWORD || config.jiraPassword;
-    runtimeOptions.jiraProjectRe = process.env.JIRA_PROJECT_RE ? new RegExp(process.env.JIRA_PROJECT_RE, "g") : config.jiraProjectRe;
+    runtimeOptions.jiraProjectRe = process.env.JIRA_PROJECT_RE ? new RegExp(process.env.JIRA_PROJECT_RE, "gi") : config.jiraProjectRe;
 };
 runtimeOptions.hipchatRoomsToJoin = process.env.HIPCHAT_ROOMS_TO_JOIN ? process.env.HIPCHAT_ROOMS_TO_JOIN.split(',') : config.hipchatRoomsToJoin;
 
@@ -87,9 +87,9 @@ b.onMessage(function(channel, from, message) {
       var woah_now = "I'm sorry, I don't respond well to cursing.";
       self.message(channel, woah_now);
   } else if (ticket_matches) {
-    if (runtimeOptions.tracker == "bitbucket") {
+    ticket_matches.forEach(function(issueKey) {
+      if (runtimeOptions.tracker == "bitbucket") {
       console.log(' -=- > Looking up BitBucket details for ' + message + ' with matches: ' + ticket_matches);
-      ticket_matches.forEach(function(issueKey) {
         if (alreadyProcessed.indexOf(issueKey) < 0) {
           alreadyProcessed.push(issueKey);
           // For bitbucket, we need to parse the repo from the message
@@ -132,11 +132,9 @@ b.onMessage(function(channel, from, message) {
             console.error(e);
           });
         }
-      });
-    } else {
-      // Do JIRA stuff here.
-      console.log(' -=- > Looking up JIRA details for ' + message + ' with matches: ' + ticket_matches);
-      matches.forEach(function(jiraKey) { 
+      } else {
+        // Do JIRA stuff here.
+        console.log(' -=- > Looking up JIRA details for ' + message + ' with matches: ' + ticket_matches); 
         if (alreadyProcessed.indexOf(jiraKey) < 0) {
           alreadyProcessed.push(jiraKey);
           var options = {
@@ -174,8 +172,8 @@ b.onMessage(function(channel, from, message) {
             console.error(e);
           });
         }
-      });
-    }
+      }
+    });
   } else if (save_matches) {
       fs.writeFile("config.runtime.js", "var config = " + JSON.stringify(runtimeOptions, null, 4) + ";\n\nmodule.exports = config;", function(err){
           if (err){
