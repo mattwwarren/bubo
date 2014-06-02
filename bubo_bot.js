@@ -5,9 +5,6 @@ var path_module = require('path');
 var module_holder = {};
 var runtimeOptions = require('./config');
 
-console.log("got a config!");
-console.log(runtimeOptions.debug);
-
 function LoadModules(path) {
     fs.lstat(path, function(err, stat) {
         if (stat.isDirectory()) {
@@ -30,8 +27,6 @@ LoadModules(DIR);
 
 exports.module_holder = module_holder;
 
-console.log("loaded modules!");
-
 // Start the bot!
 var b = new wobot.Bot({
     debug: runtimeOptions.debug,
@@ -39,12 +34,8 @@ var b = new wobot.Bot({
     password: runtimeOptions.hipchatPassword
 });
 
-console.log("got a bot!");
-
 // Connect the bot!
 b.connect();
-
-console.log("connected a bot!");
 
 b.onConnect(function() {
   var self = this;
@@ -85,7 +76,6 @@ b.onMessage(function(channel, from, message) {
       var woah_now = "I'm sorry, I don't respond well to cursing.";
       self.message(channel, woah_now);
   } else if (ticket_matches) {
-    console.log(ticket_matches);
     ticket_matches.forEach(function(issueKey) {
       if (runtimeOptions.tracker == "bitbucket") {
       console.log(' -=- > Looking up BitBucket details for ' + message + ' with matches: ' + ticket_matches);
