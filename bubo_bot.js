@@ -18,7 +18,8 @@ var runtimeOptions = {
   mentionName: process.env.MENTION_NAME || config.mentionName,
   hipchatUser: process.env.HIPCHAT_USER || config.hipchatUser,
   hipchatPassword: process.env.HIPCHAT_PASSWORD || config.hipchatPassword,
-  tracker: process.env.TRACKER || config.tracker
+  tracker: process.env.TRACKER || config.tracker,
+  modules: process.env.MODULES || config.modules
 };
 
 // Are we connecting to BitBucket? Otherwise, assume JIRA.
@@ -36,6 +37,10 @@ if (runtimeOptions.tracker == 'bitbucket'){
     runtimeOptions.jiraProjectRe = process.env.JIRA_PROJECT_RE ? new RegExp(process.env.JIRA_PROJECT_RE, "gi") : config.jiraProjectRe;
 };
 runtimeOptions.hipchatRoomsToJoin = process.env.HIPCHAT_ROOMS_TO_JOIN ? process.env.HIPCHAT_ROOMS_TO_JOIN.split(',') : config.hipchatRoomsToJoin;
+
+for (var module in modules){
+  require (module);
+}
 
 // Start the bot!
 var b = new wobot.Bot({
@@ -81,9 +86,7 @@ b.onMessage(function(channel, from, message) {
   var who_matches = message.match(who_re);
   var make_re = new RegExp(runtimeOptions.mentionName + ".*make me", "gi");
   var make_matches = message.match(make_re);
-  var swear_re = new RegExp(runtimeOptions.mentionName + ".*(ass(hole)?|bastard|bitch|fuck|shit)+(\W|$)", "gim")
-  var swear_matches = message.match(swear_re);
-  if (swear_matches) {
+  if (swear.swear_matches) {
       var woah_now = "I'm sorry, I don't respond well to cursing.";
       self.message(channel, woah_now);
   } else if (ticket_matches) {
