@@ -1,5 +1,5 @@
-config.js
-config.runtime.js
+config.json
+config.runtime.json
 node_modules
 
 *.swp
