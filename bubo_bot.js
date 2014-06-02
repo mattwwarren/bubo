@@ -174,7 +174,7 @@ b.onMessage(function(channel, from, message) {
       }
     });
   } else if (save_matches) {
-      fs.writeFile("config.runtime.js", "var config = " + JSON.stringify(runtimeOptions, null, 4) + ";\n\nmodule.exports = config;", function(err){
+      fs.writeFile("config.runtime.json", JSON.stringify(runtimeOptions, null, 4), function(err){
           if (err){
               console.log(err);
               self.message(channel, err);
