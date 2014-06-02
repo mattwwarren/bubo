@@ -72,7 +72,8 @@ b.onInvite(function(roomJid, fromJid, reason) {
 b.onMessage(function(channel, from, message) {
   var self = this;
   var alreadyProcessed = [];
-  var ticket_matches = message.match(runtimeOptions.bbProjectRe);
+  var ticket_re = new RegExp(runtimeOptions.bbProjectRe, "gi");
+  var ticket_matches = message.match(ticket_re);
   var swear_matches = message.match(module_holder['swear'].swear_re);
   var save_matches = message.match(module_holder['save'].save_re);
   var philosophy_matches = message.match(/(meaning of life|answer to life|life(, the)? universe[,| and|, and]? everything|answer to (the )? ultimate question)/g);
@@ -84,6 +85,7 @@ b.onMessage(function(channel, from, message) {
       var woah_now = "I'm sorry, I don't respond well to cursing.";
       self.message(channel, woah_now);
   } else if (ticket_matches) {
+    console.log(ticket_matches);
     ticket_matches.forEach(function(issueKey) {
       if (runtimeOptions.tracker == "bitbucket") {
       console.log(' -=- > Looking up BitBucket details for ' + message + ' with matches: ' + ticket_matches);

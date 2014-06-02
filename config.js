@@ -25,13 +25,13 @@ if (runtimeOptions.tracker == 'bitbucket'){
     runtimeOptions.bbOwner = process.env.BB_OWNER || this.configData.bbOwner;
     runtimeOptions.bbUsername = process.env.BB_USERNAME || this.configData.bbUsername;
     runtimeOptions.bbPassword = process.env.BB_PASSWORD || this.configData.bbPassword;
-    runtimeOptions.bbProjectRe = process.env.BB_PROJECT_RE ? new RegExp(process.env.BB_PROJECT_RE, "gi") : this.configData.bbProjectRe;
+    runtimeOptions.bbProjectRe = process.env.BB_PROJECT_RE || this.configData.bbProjectRe;
 } else {
     runtimeOptions.jiraBrowseUrl = process.env.JIRA_BROWSE_URL || this.configData.jiraBrowseUrl;
     runtimeOptions.jiraHostname = process.env.JIRA_HOSTNAME || this.configData.jiraHostname;
     runtimeOptions.jiraUsername = process.env.JIRA_USERNAME || this.configData.jiraUsername;
     runtimeOptions.jiraPassword = process.env.JIRA_PASSWORD || this.configData.jiraPassword;
-    runtimeOptions.jiraProjectRe = process.env.JIRA_PROJECT_RE ? new RegExp(process.env.JIRA_PROJECT_RE, "gi") : this.configData.jiraProjectRe;
+    runtimeOptions.jiraProjectRe = new RegExp(process.env.JIRA_PROJECT_RE, "gi") || new RegExp(this.configData.jiraProjectRe, "gi");
 };
 runtimeOptions.hipchatRoomsToJoin = process.env.HIPCHAT_ROOMS_TO_JOIN ? process.env.HIPCHAT_ROOMS_TO_JOIN.split(',') : this.configData.hipchatRoomsToJoin;
 
