@@ -1,6 +1,6 @@
 var runtimeOptions = require('../config')
-var swear = {
-  swear_re: new RegExp(runtimeOptions.mentionName + ".*(ass(hole)?|bastard|bitch|fuck|shit)+(\W|$)", "gim"),
+var save = {
+  save_re: new RegExp(runtimeOptions.mentionName + ".*save", "gi")
 };
 
 module.exports = function(module_holder) {

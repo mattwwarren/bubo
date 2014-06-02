@@ -1,56 +1,50 @@
-try {
-  var config = require('./config');
-  console.log(' -=- > Loading configuration from config.js');
-}
-catch (e) {
-  console.log(' -=- > Loading configuration from environment variables');
-}
 var https = require('https');
 var wobot = require('wobot');
 var fs = require('fs');
+var path_module = require('path');
+var module_holder = {};
+var runtimeOptions = require('./config');
 
-// Pull this in now to allow either file-based config (checked second) or environment variables (checked first)
-// Should we run XMPP with debug?
-var debug = process.env.NODE_DEBUG || config.debug || false;
+console.log("got a config!");
+console.log(runtimeOptions.debug);
 
-// Grab common config options
-var runtimeOptions = {
-  mentionName: process.env.MENTION_NAME || config.mentionName,
-  hipchatUser: process.env.HIPCHAT_USER || config.hipchatUser,
-  hipchatPassword: process.env.HIPCHAT_PASSWORD || config.hipchatPassword,
-  tracker: process.env.TRACKER || config.tracker,
-  modules: process.env.MODULES || config.modules
-};
-
-// Are we connecting to BitBucket? Otherwise, assume JIRA.
-if (runtimeOptions.tracker == 'bitbucket'){
-    runtimeOptions.bitBucketUrl = process.env.BITBUCKET_URL || config.bitBucketUrl;
-    runtimeOptions.bbOwner = process.env.BB_OWNER || config.bbOwner;
-    runtimeOptions.bbUsername = process.env.BB_USERNAME || config.bbUsername;
-    runtimeOptions.bbPassword = process.env.BB_PASSWORD || config.bbPassword;
-    runtimeOptions.bbProjectRe = process.env.BB_PROJECT_RE ? new RegExp(process.env.BB_PROJECT_RE, "gi") : config.bbProjectRe;
-} else {
-    runtimeOptions.jiraBrowseUrl = process.env.JIRA_BROWSE_URL || config.jiraBrowseUrl;
-    runtimeOptions.jiraHostname = process.env.JIRA_HOSTNAME || config.jiraHostname;
-    runtimeOptions.jiraUsername = process.env.JIRA_USERNAME || config.jiraUsername;
-    runtimeOptions.jiraPassword = process.env.JIRA_PASSWORD || config.jiraPassword;
-    runtimeOptions.jiraProjectRe = process.env.JIRA_PROJECT_RE ? new RegExp(process.env.JIRA_PROJECT_RE, "gi") : config.jiraProjectRe;
-};
-runtimeOptions.hipchatRoomsToJoin = process.env.HIPCHAT_ROOMS_TO_JOIN ? process.env.HIPCHAT_ROOMS_TO_JOIN.split(',') : config.hipchatRoomsToJoin;
-
-for (var module in modules){
-  require (module);
+function LoadModules(path) {
+    fs.lstat(path, function(err, stat) {
+        if (stat.isDirectory()) {
+            // we have a directory: do a tree walk
+            fs.readdir(path, function(err, files) {
+                var f, l = files.length;
+                for (var i = 0; i < l; i++) {
+                    f = path_module.join(path, files[i]);
+                    LoadModules(f);
+                }
+            });
+        } else {
+            // we have a file: load it
+            require(path)(module_holder);
+        }
+    });
 }
+var DIR = path_module.join(__dirname, 'plugins');
+LoadModules(DIR);
+
+exports.module_holder = module_holder;
+
+console.log("loaded modules!");
 
 // Start the bot!
 var b = new wobot.Bot({
-    debug: debug,
+    debug: runtimeOptions.debug,
     jid: runtimeOptions.hipchatUser + "/bot",
     password: runtimeOptions.hipchatPassword
 });
 
+console.log("got a bot!");
+
 // Connect the bot!
 b.connect();
+
+console.log("connected a bot!");
 
 b.onConnect(function() {
   var self = this;
@@ -79,14 +73,14 @@ b.onMessage(function(channel, from, message) {
   var self = this;
   var alreadyProcessed = [];
   var ticket_matches = message.match(runtimeOptions.bbProjectRe);
-  var save_re = new RegExp(runtimeOptions.mentionName + ".*save", "gi");
-  var save_matches = message.match(save_re);
+  var swear_matches = message.match(module_holder['swear'].swear_re);
+  var save_matches = message.match(module_holder['save'].save_re);
   var philosophy_matches = message.match(/(meaning of life|answer to life|life(, the)? universe[,| and|, and]? everything|answer to (the )? ultimate question)/g);
   var who_re = new RegExp(runtimeOptions.mentionName + ".*(who are you|what are you|do you do)+", "gi");
   var who_matches = message.match(who_re);
   var make_re = new RegExp(runtimeOptions.mentionName + ".*make me", "gi");
   var make_matches = message.match(make_re);
-  if (swear.swear_matches) {
+  if (swear_matches) {
       var woah_now = "I'm sorry, I don't respond well to cursing.";
       self.message(channel, woah_now);
   } else if (ticket_matches) {

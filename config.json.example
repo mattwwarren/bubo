@@ -1,5 +1,5 @@
 /* Keep outside of GitHub! */
-var config = {
+config = {
   modules: [], // Add any plugins installed to the plugins directory here
   mentionName: 'bubobot', // Set this to the mention name of your bot
   hipchatRoomsToJoin: [' HIPCHAT JABBER ROOM ID@conf.hipchat.com', // see XMPP/Jabber page on your account
@@ -27,4 +27,3 @@ var config = {
   //bbProjectRe: /((?:repo1|repo2|repo3)-[0-9]+)/g
 };
 
-module.exports = config;
