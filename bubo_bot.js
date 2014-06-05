@@ -51,7 +51,7 @@ b.onConnect(function() {
 b.onInvite(function(roomJid, fromJid, reason) {
   var self = this;
   console.log(' -=- > Invited to and joining ' + roomJid + ' by ' + fromJid + ': ' + reason);
-  runtimeOptions.hipchatRoomsToJoin.append(roomJid);
+  runtimeOptions.hipchatRoomsToJoin.push(roomJid.local + '@' + roomJid.domain);
   self.join(roomJid);
 });
 

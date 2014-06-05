@@ -33,6 +33,7 @@ if (runtimeOptions.tracker == 'bitbucket'){
     runtimeOptions.jiraPassword = process.env.JIRA_PASSWORD || this.configData.jiraPassword;
     runtimeOptions.jiraProjectRe = new RegExp(process.env.JIRA_PROJECT_RE, "gi") || new RegExp(this.configData.jiraProjectRe, "gi");
 };
+runtimeOptions.hipchatRoomsToJoin = new Array();
 runtimeOptions.hipchatRoomsToJoin = process.env.HIPCHAT_ROOMS_TO_JOIN ? process.env.HIPCHAT_ROOMS_TO_JOIN.split(',') : this.configData.hipchatRoomsToJoin;
 
 module.exports = runtimeOptions;
