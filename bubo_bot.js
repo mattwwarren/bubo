@@ -59,6 +59,8 @@ b.onMessage(function(channel, from, message) {
   var philosophy_matches = message.match(/(meaning of life|answer to life|life(, the)? universe[,| and|, and]? everything|answer to (the )? ultimate question)/g);
   var who_re = new RegExp(runtimeOptions.mentionName + ".*(who are you|what are you|do you do)+", "gi");
   var who_matches = message.match(who_re);
+  var appearance_re = new RegExp(runtimeOptions.mentionName + ".*(what do you look like|see your portrait|see a picture of you)+", "gi");
+  var appearance_matches = message.match(appearance_re);
   var make_re = new RegExp(runtimeOptions.mentionName + ".*make me", "gi");
   var make_matches = message.match(make_re);
   if (swear_matches) {
@@ -179,6 +181,9 @@ b.onMessage(function(channel, from, message) {
       } else {
           self.message(channel, doit_yourself);
       }
+  } else if (appearance_matches) {
+      var nic_cage = "http://static2.businessinsider.com/image/509802cb69bedd6209000009/nicolas-cage-will-be-in-the-expendables-3.jpg";
+      self.message(channel, nic_cage);
   } else {
       return
   }
