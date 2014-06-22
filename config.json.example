@@ -2,7 +2,6 @@
 #
 # JSON cannot have comments so be sure to remove this!!!
 #
-# modules is a list of any plugins installed in the "plugins" directory
 # mentionName should be the @ mention name of your bot
 # hipchatRoomsToJoin is a list of XMPP/Jabber conference ids
 # hipchatUser is the XMPP/Jabber ID of your bot's account
@@ -13,7 +12,6 @@
 #############################################################################
 {
   "debug" : false,
-  "modules": [],
   "mentionName": "bubobot",
   "hipchatRoomsToJoin": ["HIPCHAT JABBER ROOM ID@conf.hipchat.com",
                          "ANOTHER ROOM@conf.hipchat.com",

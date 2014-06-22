@@ -92,3 +92,22 @@ Setup
 ### Heroku:
 
 To run on Heroku, do the normal (?) things but set the environment variables with `config:add` instead of config.json.
+
+Extending the bot
+------------------
+
+Let's face it, nothing is perfect so if you need bubo to do something new, you can!
+
+### Adding plugins:
+
+Drop a new js file in the plugins dir.
+
+Your file MUST implement the following two methods:
+1. `is_match` which takes the message received by the bot and returns a boolean
+1. `respond` which takes the message received by the bot and returns a string
+
+bubo is smart enough to find and load your js automatically.
+
+### Gotcha
+
+If you use vim or another editor that creates a temporary file with .js in the name, you may find nodemon fails to restart the bot because of that file. The easiest way to deal with this right now is close your editor. Sorry.
