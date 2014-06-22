@@ -1,4 +1,3 @@
-
 var save = exports;
 var fs = require('fs');
 var runtimeOptions = require('../config');
