@@ -6,26 +6,15 @@ var module_holder = {};
 var runtimeOptions = require('./config');
 
 function LoadModules(path) {
-    fs.lstat(path, function(err, stat) {
-        if (stat.isDirectory()) {
-            // we have a directory: do a tree walk
-            fs.readdir(path, function(err, files) {
-                var f, l = files.length;
-                for (var i = 0; i < l; i++) {
-                    f = path_module.join(path, files[i]);
-                    LoadModules(f);
-                }
-            });
-        } else {
-            // we have a file: load it
-            require(path)(module_holder);
-        }
+    fs.readdirSync(path).forEach(function(fname) {
+        var modname = fname.substr(0, fname.search(".js"));
+        bot_modules[modname] = require(path+"/"+fname);
     });
 }
 var DIR = path_module.join(__dirname, 'plugins');
 LoadModules(DIR);
 
-exports.module_holder = module_holder;
+exports.module_holder = bot_modules;
 
 // Start the bot!
 var b = new wobot.Bot({
