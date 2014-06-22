@@ -96,15 +96,18 @@ To run on Heroku, do the normal (?) things but set the environment variables wit
 Extending the bot
 ------------------
 
-Let's face it, nothing is perfect so if you need bubo to do something new, you can!
+Let's face it, nothing is perfect so if you need bubo to do something new, it can!
 
 ### Adding plugins:
 
 Drop a new js file in the plugins dir.
 
 Your file MUST implement the following two methods:
+
 1. `is_match` which takes the message received by the bot and returns a boolean
 1. `respond` which takes the message received by the bot and returns a string
+
+For an example, please see the super simple `plugins/who.js`
 
 bubo is smart enough to find and load your js automatically.
 
