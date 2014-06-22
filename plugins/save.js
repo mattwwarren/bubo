@@ -1,10 +1,22 @@
-var runtimeOptions = require('../config')
-var save = {
-  save_re: new RegExp(runtimeOptions.mentionName + ".*save", "gi")
+
+var save = exports;
+var fs = require('fs');
+var runtimeOptions = require('../config');
+
+save.is_match = function(message) {
+    var save_re = new RegExp(runtimeOptions.mentionName + ".*save", "gi");
+    return message.match(save_re);
 };
 
-module.exports = function(module_holder) {
-    // the key in this dictionary can be whatever you want
-    // just make sure it won't override other modules
-    module_holder['save'] = save;
+save.respond = function(message){
+    fs.writeFile("config.runtime.json", JSON.stringify(runtimeOptions, null, 4), function(err){
+        if (err){
+            console.log(err);
+            return err;
+        } else {
+            var success = "Running config saved!"
+            console.log(success);
+            return success;
+        }
+    });
 };

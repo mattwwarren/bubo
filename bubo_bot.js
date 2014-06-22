@@ -2,12 +2,12 @@ var https = require('https');
 var wobot = require('wobot');
 var fs = require('fs');
 var path_module = require('path');
-var module_holder = {};
+var bot_modules = {};
 var runtimeOptions = require('./config');
 
 function LoadModules(path) {
     fs.readdirSync(path).forEach(function(fname) {
-        var modname = fname.substr(0, fname.search(".js"));
+        var modname = fname.substr(0, fname.search(".js$"));
         bot_modules[modname] = require(path+"/"+fname);
     });
 }
@@ -54,8 +54,6 @@ b.onMessage(function(channel, from, message) {
   var alreadyProcessed = [];
   var ticket_re = new RegExp(runtimeOptions.bbProjectRe, "gi");
   var ticket_matches = message.match(ticket_re);
-  var swear_matches = message.match(module_holder['swear'].swear_re);
-  var save_matches = message.match(module_holder['save'].save_re);
   var philosophy_matches = message.match(/(meaning of life|answer to life|life(, the)? universe[,| and|, and]? everything|answer to (the )? ultimate question)/g);
   var who_re = new RegExp(runtimeOptions.mentionName + ".*(who are you|what are you|do you do)+", "gi");
   var who_matches = message.match(who_re);
@@ -63,10 +61,15 @@ b.onMessage(function(channel, from, message) {
   var appearance_matches = message.match(appearance_re);
   var make_re = new RegExp(runtimeOptions.mentionName + ".*make me", "gi");
   var make_matches = message.match(make_re);
-  if (swear_matches) {
-      var woah_now = "I'm sorry, I don't respond well to cursing.";
-      self.message(channel, woah_now);
-  } else if (ticket_matches) {
+  for (var k in bot_modules){
+      if (bot_modules.hasOwnProperty(k)) {
+          if (bot_modules[k].is_match(message)) {
+              var response = bot_modules[k].respond(message);
+              self.message(channel, response);
+          }
+      }
+  }
+  if (ticket_matches) {
     ticket_matches.forEach(function(issueKey) {
       if (runtimeOptions.tracker == "bitbucket") {
       console.log(' -=- > Looking up BitBucket details for ' + message + ' with matches: ' + ticket_matches);
@@ -154,17 +157,6 @@ b.onMessage(function(channel, from, message) {
         }
       }
     });
-  } else if (save_matches) {
-      fs.writeFile("config.runtime.json", JSON.stringify(runtimeOptions, null, 4), function(err){
-          if (err){
-              console.log(err);
-              self.message(channel, err);
-          } else {
-              var success = "Running config saved!"
-              console.log(success);
-              self.message(channel, success);
-          }
-      });
   } else if (philosophy_matches) {
       var the_answer = "42";
       self.message(channel, the_answer);
