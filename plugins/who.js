@@ -1,4 +1,5 @@
 var who = exports;
+var runtimeOptions = require('../config');
 
 who.is_match = function(message){
   var who_re = new RegExp(runtimeOptions.mentionName + ".*(who are you|what are you|do you do)+", "gi");

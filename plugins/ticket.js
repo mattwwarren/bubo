@@ -9,12 +9,13 @@ ticket.is_match = function(message){
     return message.match(ticket_re);
 }
     
-ticket.respond = function(message){    
+ticket.respond = function(message, callback){    
     var ticket_matches = message.match(ticket_re);
     ticket_matches.forEach(function(issueKey) {
       if (runtimeOptions.tracker == "bitbucket") {
       console.log(' -=- > Looking up BitBucket details for ' + message + ' with matches: ' + ticket_matches);
         if (alreadyProcessed.indexOf(issueKey) < 0) {
+          console.log(issueKey);
           alreadyProcessed.push(issueKey);
           // For bitbucket, we need to parse the repo from the message
           repository = issueKey.replace(/-\d*/g, "");
@@ -41,6 +42,7 @@ ticket.respond = function(message){
               try {
                 var bbData = JSON.parse(body);
                 var clarification = runtimeOptions.bitBucketUrl + repository + "/issue/" + bbData.local_id + ': "' + bbData.title + '" marked as ' + bbData.status + ' and assigned to ' + bbData.responsible.display_name;
+                console.log(clarification);
                 return clarification;
               }
               catch (e) {

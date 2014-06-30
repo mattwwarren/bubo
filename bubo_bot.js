@@ -52,12 +52,10 @@ b.onInvite(function(roomJid, fromJid, reason) {
 b.onMessage(function(channel, from, message) {
   var self = this;
   for (var k in bot_modules){
+      console.log(k);
       if (bot_modules.hasOwnProperty(k)) {
           if (bot_modules[k].is_match(message)) {
-              var response = bot_modules[k].respond(message);
-              self.message(channel, response);
-          } else {
-              return
+              self.message(channel, bot_modules[k].respond(message));
           }
       } else {
           return
