@@ -6,7 +6,7 @@ swear.is_match = function(message){
     return message.match(swear_re);
 };
 
-swear.respond = function(message){
+swear.respond = function(message, channel, cb){
     var woah_now = "I'm sorry, I don't respond well to cursing.";
-    return woah_now;
+    cb(channel, woah_now);
 };

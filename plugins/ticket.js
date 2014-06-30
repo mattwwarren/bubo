@@ -9,7 +9,7 @@ ticket.is_match = function(message){
     return message.match(ticket_re);
 }
     
-ticket.respond = function(message, callback){    
+ticket.respond = function(message, channel, cb){    
     var ticket_matches = message.match(ticket_re);
     ticket_matches.forEach(function(issueKey) {
       if (runtimeOptions.tracker == "bitbucket") {
@@ -42,13 +42,12 @@ ticket.respond = function(message, callback){
               try {
                 var bbData = JSON.parse(body);
                 var clarification = runtimeOptions.bitBucketUrl + repository + "/issue/" + bbData.local_id + ': "' + bbData.title + '" marked as ' + bbData.status + ' and assigned to ' + bbData.responsible.display_name;
-                console.log(clarification);
-                return clarification;
+                cb(channel, clarification);
               }
               catch (e) {
                 var sorry = '/me could not find ' + issueKey;
                 console.error(e);
-                return sorry;
+                cb(channel, sorry);
               }
             });
           });
@@ -83,12 +82,12 @@ ticket.respond = function(message, callback){
               try {
                 var jiraData = JSON.parse(body);
                 var clarification = runtimeOptions.jiraBrowseUrl + jiraData.key + ': “' + jiraData.fields.summary + '” marked as ' + jiraData.fields.status.name + ' and assigned to ' + jiraData.fields.assignee.displayName;
-                return clarification;
+                cb(channel, clarification);
               }
               catch (e) {
                 var sorry = '/me could not find ' + jiraKey;
                 console.error(e);
-                return sorry;
+                cb(channel, sorry);
               }
             });
           });

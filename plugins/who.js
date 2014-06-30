@@ -6,7 +6,7 @@ who.is_match = function(message){
   return message.match(who_re);
 }
 
-who.respond = function(message){
+who.respond = function(message, channel, cb){
     var what_am_i = "I'm just a simple node js script running via pm2 in the cloud!";
-    return what_am_i;
+    cb(channel, what_am_i);
 }

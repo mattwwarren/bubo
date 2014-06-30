@@ -3,6 +3,7 @@ var fs = require('fs');
 var path_module = require('path');
 var bot_modules = {};
 var runtimeOptions = require('./config');
+var bubo_bot = exports;
 
 function LoadModules(path) {
     fs.readdirSync(path).forEach(function(fname) {
@@ -52,10 +53,9 @@ b.onInvite(function(roomJid, fromJid, reason) {
 b.onMessage(function(channel, from, message) {
   var self = this;
   for (var k in bot_modules){
-      console.log(k);
       if (bot_modules.hasOwnProperty(k)) {
           if (bot_modules[k].is_match(message)) {
-              self.message(channel, bot_modules[k].respond(message));
+              bot_modules[k].respond(message, channel, self.message.bind(self));
           }
       } else {
           return

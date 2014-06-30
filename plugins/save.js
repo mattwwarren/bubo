@@ -7,15 +7,15 @@ save.is_match = function(message) {
     return message.match(save_re);
 };
 
-save.respond = function(message){
+save.respond = function(message, channel, cb){
     fs.writeFile("config.runtime.json", JSON.stringify(runtimeOptions, null, 4), function(err){
         if (err){
             console.log(err);
-            return err;
+            cb(channel, err);
         } else {
             var success = "Running config saved!"
             console.log(success);
-            return success;
+            cb(channel, success);
         }
     });
 };
