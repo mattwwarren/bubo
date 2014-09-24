@@ -28,6 +28,7 @@
   "bbUsername": "USERNAME OF USER WITH ACCESS",
   "bbPassword": "MySuperS3cr3tPassw0rd",
   "bbOwner": "someone",
-  "bbProjectRe": "((?:repo1|repo2|repo3)-[0-9]+)"
+  "bbProjectRe": "((?:repo1|repo2|repo3)-[0-9]+)",
+  "giphyKey": "SOMEKEYGOESHERE"
 }
 

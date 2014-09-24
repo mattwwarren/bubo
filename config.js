@@ -16,7 +16,8 @@ var runtimeOptions = {
   hipchatPassword: process.env.HIPCHAT_PASSWORD || this.configData.hipchatPassword,
   tracker: process.env.TRACKER || this.configData.tracker,
   modules: process.env.MODULES || this.configData.modules,
-  debug: process.env.NODE_DEBUG || this.configData.debug || false
+  debug: process.env.NODE_DEBUG || this.configData.debug || false,
+  giphyKey: process.env.GIPHY_KEY || this.configData.giphyKey
 };
 
 // Are we connecting to BitBucket? Otherwise, assume JIRA.
