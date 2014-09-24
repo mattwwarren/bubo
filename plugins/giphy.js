@@ -34,7 +34,7 @@ giphy.respond = function(message, channel, cb){
       if (data.length) {
         img_obj = data[Math.floor(Math.random() * data.length)];
         giphy_gif = (img_obj.images.original.url);
-        cb(channel, giphy_gif);
+        cb(channel, "This gif is powered by Giphy: " + giphy_gif);
       } else {
         cb(channel, "No results found for " + giphy_q);
       };

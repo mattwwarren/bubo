@@ -9,6 +9,9 @@
 # The tracker settings, hopefully, have obvious definitions
 # At this moment in time, only one tracker at a time is supported
 #
+# giphyKey must be the key obtained by you to query the giphy API
+# I do not know if I am allowed to distribute my key
+#
 #############################################################################
 {
   "debug" : false,
