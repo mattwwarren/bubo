@@ -8,7 +8,7 @@ giphy.is_match = function(message){
 }
 
 giphy.respond = function(message, channel, cb){
-  var giphy_q = message.split(/\/giphy /)[1];
+  var giphy_q = message.split(/\/giphy /)[1].replace(/ /g,"+");
   var img_obj = '';
   var api_key = runtimeOptions.giphyKey;
   var api_host = 'api.giphy.com';
@@ -36,7 +36,7 @@ giphy.respond = function(message, channel, cb){
         giphy_gif = (img_obj.images.original.url);
         cb(channel, giphy_gif);
       } else {
-        cb(channel, "No results found for " + q);
+        cb(channel, "No results found for " + giphy_q);
       };
     });
   });
