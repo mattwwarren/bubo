@@ -18,7 +18,9 @@
   },
   "dependencies": {
     "wobot": "git://github.com/uxdiogenes/wobot.git",
-    "jira-api": ">= 0.2.2"
+    "jira-api": ">= 0.2.2",
+    "cron": ">= 1.0.5",
+    "underscore": ">= 1.7.0"
   },
   "main": "bubo_bot.js",
   "engines": {
