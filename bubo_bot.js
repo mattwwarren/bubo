@@ -62,3 +62,7 @@ b.onMessage(function(channel, from, message) {
       }
   }
 });
+
+bubo_bot.send_message = function(channel, message){
+  b.message(channel, message);
+}

@@ -1,5 +1,6 @@
 config.json
 config.runtime.json
+standups.json
 node_modules
 
 *.swp
