@@ -28,6 +28,7 @@ if (runtimeOptions.tracker == 'bitbucket'){
     runtimeOptions.bbUsername = process.env.BB_USERNAME || this.configData.bbUsername;
     runtimeOptions.bbPassword = process.env.BB_PASSWORD || this.configData.bbPassword;
     runtimeOptions.bbProjectRe = process.env.BB_PROJECT_RE || this.configData.bbProjectRe;
+    runtimeOptions.bbProjectPullRe = process.env.BB_PROJECT_PULL_RE || this.configData.bbProjectPullRe;
 } else {
     runtimeOptions.jiraBrowseUrl = process.env.JIRA_BROWSE_URL || this.configData.jiraBrowseUrl;
     runtimeOptions.jiraHostname = process.env.JIRA_HOSTNAME || this.configData.jiraHostname;
