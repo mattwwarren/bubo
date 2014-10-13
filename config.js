@@ -17,7 +17,8 @@ var runtimeOptions = {
   tracker: process.env.TRACKER || this.configData.tracker,
   modules: process.env.MODULES || this.configData.modules,
   debug: process.env.NODE_DEBUG || this.configData.debug || false,
-  giphyKey: process.env.GIPHY_KEY || this.configData.giphyKey
+  giphyKey: process.env.GIPHY_KEY || this.configData.giphyKey,
+  baseDir: process.env.BASE_DIR || this.configData.baseDir
 };
 
 // Are we connecting to BitBucket? Otherwise, assume JIRA.

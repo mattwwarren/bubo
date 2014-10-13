@@ -28,7 +28,6 @@ var fs = require('fs');
 var runtimeOptions = require('../config');
 var bubo_bot = require('../bubo_bot');
 
-var __dirname = require('path').dirname(require.main.filename)
 // Constants.
 var STANDUP_MESSAGES = [
     "Standup time!",
@@ -39,7 +38,7 @@ var STANDUP_MESSAGES = [
     "Standup time! Now! Go go go!",
     "Tweedley-tweedly-tweet! (startrek)"
 ];
-var STANDUP_FILE = __dirname + "/standups.json"
+var STANDUP_FILE = runtimeOptions.baseDir + "/standups.json";
 
 var botName = runtimeOptions.mentionName
 var clearAllStandups_re = new RegExp(botName + ".*delete all standups", "i");

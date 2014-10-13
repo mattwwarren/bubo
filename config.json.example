@@ -12,6 +12,9 @@
 # giphyKey must be the key obtained by you to query the giphy API
 # I do not know if I am allowed to distribute my key
 #
+# For loading the standups.json, you'll need to specify the
+# location of the checkout directory
+#
 #############################################################################
 {
   "debug" : false,
@@ -32,6 +35,7 @@
   "bbPassword": "MySuperS3cr3tPassw0rd",
   "bbOwner": "someone",
   "bbProjectRe": "((?:repo1|repo2|repo3)-[0-9]+)",
-  "giphyKey": "SOMEKEYGOESHERE"
+  "giphyKey": "SOMEKEYGOESHERE",
+  "baseDir": "/path/to/repo/checkout"
 }
 
