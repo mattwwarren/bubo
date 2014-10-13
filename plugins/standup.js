@@ -43,9 +43,9 @@ var STANDUP_FILE = runtimeOptions.baseDir + "/standups.json";
 var botName = runtimeOptions.mentionName
 var clearAllStandups_re = new RegExp(botName + ".*delete all standups", "i");
 var deleteOneStandup_re = new RegExp(botName + ".*delete ([0-5]?[0-9]:[0-5]?[0-9]) standup", "i");
-var createOneStandup_re = new RegExp(botName + ".*create standup ([0-5]?[0-9]:[0-5]?[0-9])$", "i");
-var listOneStandup_re = new RegExp(botName + ".*list standups$", "i");
-var listAllStandup_re = new RegExp(botName + ".*list standups in every room", "i");
+var createOneStandup_re = new RegExp(botName + ".*create standup at ([0-5]?[0-9]:[0-5]?[0-9])$", "i");
+var listOneStandup_re = new RegExp(botName + ".*list standup(s)?$", "i");
+var listAllStandup_re = new RegExp(botName + "(.*list (all )?(the )?standup(s)?|.* list standups (in|from) every room)", "i");
 var standupHelp_re = new RegExp(botName + ".*standup help", "i");
 
 // Check for standups that need to be fired, once a minute
@@ -109,9 +109,7 @@ function checkStandups() {
     var standups = getStandups();
 
     if (standups.length > 0) {
-        console.log(standups);
         _.each(standups, function(standup) {
-            console.log(standup);
             if (standupShouldFire(standup.time)) {
                 doStandup(standup.room);
             }
@@ -201,7 +199,6 @@ standup.respond = function(msg, channel, cb) {
             cb(channel,"Deleted your " + time + " standup.");
         }
     } else if (msg.match(createOneStandup_re)) {
-        console.log(msg);
         var time = msg.match(createOneStandup_re)[1];
 
         // NOTE: This works for Hipchat. You may need to change this line to 
@@ -215,7 +212,7 @@ standup.respond = function(msg, channel, cb) {
         var standups = getStandupsForRoom(channel);
 
         if (standups.length === 0) {
-            cb(channel,"Well this is awkward. You haven't got any standups set :-/");
+            cb(channel,"Well this is awkward. You haven't got any standups set (awkward)");
         } else {
             var standupsText = [];
             if (standups.length === 1) {
@@ -245,7 +242,7 @@ standup.respond = function(msg, channel, cb) {
         message.push("I can remind you to do your daily standup!");
         message.push("Use me to create a standup, and then I'll post in this room every weekday at the time you specify. Here's how:");
         message.push("");
-        message.push("create standup hh:mm - I'll remind you to standup in this room at hh:mm every weekday.");
+        message.push("create standup at hh:mm - I'll remind you to standup in this room at hh:mm every weekday.");
         message.push("list standups - See all standups for this room.");
         message.push("list standups in every room - Be nosey and see when other rooms have their standup.");
         message.push("delete hh:mm standup - If you have a standup at hh:mm, I'll delete it.");
