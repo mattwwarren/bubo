@@ -50,6 +50,8 @@ b.onInvite(function(roomJid, fromJid, reason) {
 //     - save config
 //     - answer philosophical questions
 //     - self-awareness
+//     - giphy API search
+//     - standup reminders
 b.onMessage(function(channel, from, message) {
   var self = this;
   for (var k in bot_modules){
