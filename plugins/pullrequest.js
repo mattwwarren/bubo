@@ -11,16 +11,17 @@ pullrequest.is_match = function(message){
 
 pullrequest.respond = function(message, channel, cb){
     var pr_matches = message.match(pullreq_re);
-    pr_matches.forEach(function(prKey) {
+    // BitBucket repos can be parsed from the message
+    var repository = pr_matches[0].match(/\w+/)[0];
+    console.log(pr_matches);
+    // Once we have the repo, get the pr id #
+    prNums = pr_matches[0].match(/\d+/);
+    console.log(prNums);
+    prNums.forEach(function(prNum) {
       if (runtimeOptions.tracker == "bitbucket") {
-      console.log(' -=- > Looking up BitBucket details for ' + message + ' with matches: ' + pr_matches);
-        if (alreadyProcessed.indexOf(prKey) < 0) {
-          console.log(prKey);
-          alreadyProcessed.push(prKey);
-          // For bitbucket, we need to parse the repo from the message
-          repository = prKey.match(/\w+/)[0];
-          // Once we have the repo, get the issue id #
-          prNum = prKey.replace(repository + " pull request ", "");
+        console.log(' -=- > Looking up BitBucket details for ' + message + ' with matches: ' + pr_matches);
+        if (alreadyProcessed.indexOf(prNum) < 0) {
+          alreadyProcessed.push(prNum);
 
           var options = {
               auth: runtimeOptions.bbUsername + ':' + runtimeOptions.bbPassword,

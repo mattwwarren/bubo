@@ -120,7 +120,7 @@ function checkStandups() {
 // Fires the standup message.
 function doStandup(room) {
     var message = _.sample(STANDUP_MESSAGES);
-    bubo_bot.send_message(room, '@here' + message);
+    bubo_bot.send_message(room, '@here ' + message);
 }
 
 // Stores a standup in the brain.
