@@ -14,6 +14,7 @@ var runtimeOptions = {
   mentionName: process.env.MENTION_NAME || this.configData.mentionName,
   hipchatUser: process.env.HIPCHAT_USER || this.configData.hipchatUser,
   hipchatPassword: process.env.HIPCHAT_PASSWORD || this.configData.hipchatPassword,
+  hipchatApi: process.env.HIPCHAT_API || this.configData.hipchatApi,
   tracker: process.env.TRACKER || this.configData.tracker,
   modules: process.env.MODULES || this.configData.modules,
   debug: process.env.NODE_DEBUG || this.configData.debug || false,
