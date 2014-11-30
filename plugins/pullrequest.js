@@ -9,7 +9,7 @@ pullrequest.is_match = function(message){
     return message.match(pullreq_re);
 };
 
-pullrequest.respond = function(message, channel, cb){
+pullrequest.respond = function(message, from, channel, cb){
     var pr_matches = message.match(pullreq_re);
     // BitBucket repos can be parsed from the message
     var repository = pr_matches[0].match(/\w+/)[0];

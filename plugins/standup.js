@@ -186,7 +186,7 @@ standup.is_match = function(msg) {
         msg.match(listAllStandup_re) || msg.match(standupHelp_re);
 }
 
-standup.respond = function(msg, channel, cb) {
+standup.respond = function(msg, from, channel, cb) {
     if (msg.match(clearAllStandups_re)) {
         var standupsCleared = clearAllStandupsForRoom(channel);
         cb(channel,'Deleted ' + standupsCleared + ' standup' + (standupsCleared === 1 ? '' : 's') + '. No more standups for you.');

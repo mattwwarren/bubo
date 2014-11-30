@@ -5,7 +5,7 @@ philosophy.is_match = function(message){
     return philosophy_matches; 
 };
 
-philosophy.respond = function(message, channel, cb){
+philosophy.respond = function(message, from, channel, cb){
       var the_answer = "42";
       cb(channel, the_answer);
 };

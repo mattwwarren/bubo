@@ -6,7 +6,7 @@ make.is_match = function(message){
     return message.match(make_re);
 }
 
-make.respond = function(message, channel, cb){
+make.respond = function(message, from, channel, cb){
     var sandwich = message.replace(/.*make me (a(n)? )?/g, "");
     var doit_yourself = "Why don't you make your own " + sandwich + "?";
     var onit = "Okay, I'll get right on making your " + sandwich + "!";

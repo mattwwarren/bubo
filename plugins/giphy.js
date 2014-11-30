@@ -7,7 +7,7 @@ giphy.is_match = function(message){
   return message.match(giphy_re);
 }
 
-giphy.respond = function(message, channel, cb){
+giphy.respond = function(message, from, channel, cb){
   var giphy_q = message.split(/\/giphy /)[1].replace(/ /g,"+");
   var img_obj = '';
   var api_key = runtimeOptions.giphyKey;

@@ -9,7 +9,7 @@ ticket.is_match = function(message){
     return message.match(ticket_re);
 }
     
-ticket.respond = function(message, channel, cb){    
+ticket.respond = function(message, from, channel, cb){    
     var ticket_matches = message.match(ticket_re);
     ticket_matches.forEach(function(issueKey) {
       if (runtimeOptions.tracker == "bitbucket") {

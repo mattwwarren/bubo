@@ -6,7 +6,7 @@ appearance.is_match = function(message){
     return message.match(appearance_re);
 }
 
-appearance.respond = function(message, channel, cb){
+appearance.respond = function(message, from, channel, cb){
     var nic_cage = "http://static2.businessinsider.com/image/509802cb69bedd6209000009/nicolas-cage-will-be-in-the-expendables-3.jpg";
     cb(channel, nic_cage);
 }

@@ -7,7 +7,7 @@ save.is_match = function(message) {
     return message.match(save_re);
 };
 
-save.respond = function(message, channel, cb){
+save.respond = function(message, from, channel, cb){
     fs.writeFile("config.runtime.json", JSON.stringify(runtimeOptions, null, 4), function(err){
         if (err){
             console.log(err);
