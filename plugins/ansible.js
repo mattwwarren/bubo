@@ -9,32 +9,38 @@ ansible.is_match = function(message) {
     return message.match(ansible_re);
 };
 
-ansible.respond = function(message, channel, cb){
+ansible.respond = function(message, from, channel, cb){
     var ansible_matches = message.match(ansible_re);
     var ansible_func = ansible_matches[1];
     var command;
-    if (ansible_func == "ad-hoc") {
-        var adhoc_re = /.*run ansible ad-hoc (\w+) on ([\w+\.*]+) ?(with .*)?/i;
-        var adhoc_matches = message.match(adhoc_re);
-        var module = adhoc_matches[1];
-        var host = adhoc_matches[2];
-        var args;
-        if (adhoc_matches[3]) {
-            var args = adhoc_matches[3].match(/(with) (.*)/)[2];
-        }
-        if (args) {
-            command = new Ansible.AdHoc().hosts(host).module(module).args(JSON.parse(args));
+    if (from in runtimeOptions.authAnsiblers){
+        if (ansible_func == "ad-hoc") {
+            var adhoc_re = /.*run ansible ad-hoc (\w+) on ([\w+\.*]+) ?(with .*)?/i;
+            var adhoc_matches = message.match(adhoc_re);
+            var module = adhoc_matches[1];
+            var host = adhoc_matches[2];
+            var args;
+            if (adhoc_matches[3]) {
+                var args = adhoc_matches[3].match(/(with) (.*)/)[2];
+            }
+            if (args) {
+                command = new Ansible.AdHoc().hosts(host).module(module).args(JSON.parse(args));
+            } else {
+                command = new Ansible.AdHoc().hosts(host).module(module);
+            }
         } else {
-            command = new Ansible.AdHoc().hosts(host).module(module);
+            var playbook_re = /.*run ansible playbook (\w+) on ([\w+\.*]+)/i;
+            var playbook_matches = message.match(playbook_re);
+            var playbook = playbook_matches[1] + ".yml";
+            var host = playbook_matches[2];
+            //command = new Ansible.Playbook().playbook(playbook).limit(host);
+            var not_implemented = "This is not implemented yet. Playbooks cannot be limited yet.";
+            cb(channel, not_implemented);
+            return false;
         }
     } else {
-        var playbook_re = /.*run ansible playbook (\w+) on ([\w+\.*]+)/i;
-        var playbook_matches = message.match(playbook_re);
-        var playbook = playbook_matches[1] + ".yml";
-        var host = playbook_matches[2];
-        //command = new Ansible.Playbook().playbook(playbook).limit(host);
-        var not_implemented = "This is not implemented yet. Playbooks cannot be limited yet.";
-        cb(channel, not_implemented);
+        not_authd = "I'm sorry, I can't let you do that " + from.split(" ")[0];
+        cb(channel, not_authd);
         return false;
     }
     command.inventory(runtimeOptions.ansibleDir + '/inventory');

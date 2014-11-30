@@ -20,7 +20,8 @@ var runtimeOptions = {
   debug: process.env.NODE_DEBUG || this.configData.debug || false,
   giphyKey: process.env.GIPHY_KEY || this.configData.giphyKey,
   baseDir: process.env.BASE_DIR || this.configData.baseDir,
-  ansibleDir: process.env.ANSIBLE_DIR || this.configData.ansibleDir
+  ansibleDir: process.env.ANSIBLE_DIR || this.configData.ansibleDir,
+  authAnsiblers: process.env.AUTH_ANSIBLERS || this.configData.authAnsiblers
 };
 
 // Are we connecting to BitBucket? Otherwise, assume JIRA.

@@ -57,7 +57,7 @@ b.onMessage(function(channel, from, message) {
   for (var k in bot_modules){
       if (bot_modules.hasOwnProperty(k)) {
           if (bot_modules[k].is_match(message)) {
-              bot_modules[k].respond(message, channel, self.message.bind(self));
+              bot_modules[k].respond(message, from, channel, self.message.bind(self));
           }
       } else {
           return
