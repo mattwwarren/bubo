@@ -15,9 +15,8 @@ pullrequest.respond = function(message, from, channel, cb){
     var repository = pr_matches[0].match(/\w+/)[0];
     console.log(pr_matches);
     // Once we have the repo, get the pr id #
-    prNums = pr_matches[0].match(/\d+/);
-    console.log(prNums);
-    prNums.forEach(function(prNum) {
+    pr_matches.forEach(function(match) {
+      prNum = match.match(/\d+/);
       if (runtimeOptions.tracker == "bitbucket") {
         console.log(' -=- > Looking up BitBucket details for ' + message + ' with matches: ' + pr_matches);
         if (alreadyProcessed.indexOf(prNum) < 0) {
