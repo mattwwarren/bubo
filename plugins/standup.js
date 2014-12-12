@@ -31,12 +31,14 @@ var bubo_bot = require('../bubo_bot');
 // Constants.
 var STANDUP_MESSAGES = [
     "Standup time!",
-    "Time for standup, you guys.",
+    "Time for standup, peeps.",
     "It's standup time once again!",
     "Get up, stand up (it's time for our standup)",
     "Standup time. Get up, humans",
     "Standup time! Now! Go go go!",
-    "Tweedley-tweedly-tweet! (startrek)"
+    "Tweedley-tweedly-tweet! (startrek)",
+    "Ahora es el momento de estar de pie, todos ustedes.",
+    "Levantarse! Levantarse! Ve! Ve! Ve!"
 ];
 var STANDUP_FILE = runtimeOptions.baseDir + "/standups.json";
 
