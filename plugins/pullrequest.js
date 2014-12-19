@@ -42,7 +42,7 @@ pullrequest.respond = function(message, from, channel, cb){
             res.on('end', function() {
               try {
                 var bbData = JSON.parse(body);
-                var clarification = runtimeOptions.bitBucketUrl + repository + "/pullrequest/" + bbData.id + ': "' + bbData.title + '" marked as ' + bbData.state + ' and was created by ' + bbData.author.display_name;
+                var clarification = runtimeOptions.bitBucketUrl + repository + "/pull-request/" + bbData.id + ': "' + bbData.title + '" marked as ' + bbData.state + ' and was created by ' + bbData.author.display_name;
                 cb(channel, clarification);
               }
               catch (e) {
