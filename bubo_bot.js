@@ -7,8 +7,10 @@ var bubo_bot = exports;
 
 function LoadModules(path) {
     fs.readdirSync(path).forEach(function(fname) {
-        var modname = fname.substr(0, fname.search(".js$"));
+      if (fname.indexOf('\.js$') > -1) {
+        var modname = fname.substr(0, fname.search("\.js$"));
         bot_modules[modname] = require(path+"/"+fname);
+      }
     });
 }
 var DIR = path_module.join(__dirname, 'plugins');
