@@ -111,6 +111,10 @@ For an example, please see the super simple `plugins/who.js`
 
 bubo is smart enough to find and load your js automatically.
 
+### Adding private plugins:
+
+If you have a plugin that you do not want tracked, you may use the `private_plugins` directory.
+
 ### Gotcha
 
 If you use vim or another editor that creates a temporary file with .js in the name, you may find nodemon fails to restart the bot because of that file. The easiest way to deal with this right now is close your editor. Sorry.
