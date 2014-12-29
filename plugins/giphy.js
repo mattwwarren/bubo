@@ -15,7 +15,7 @@ giphy.respond = function(message, from, channel, cb){
   var endpoint = '/v1/gifs/search';
   var options = {
     hostname: api_host,
-    path: endpoint + '?api_key=' + api_key + '&q=' + giphy_q
+    path: endpoint + '?api_key=' + api_key + '&q=' + giphy_q + '&rating=pg-13'
   };
 
   var body = '';
