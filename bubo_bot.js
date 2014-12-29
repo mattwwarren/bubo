@@ -14,6 +14,9 @@ function LoadModules(path) {
 var DIR = path_module.join(__dirname, 'plugins');
 LoadModules(DIR);
 
+var PRIV_DIR = path_module.join(__dirname, 'private_plugins');
+LoadModules(PRIV_DIR);
+
 exports.module_holder = bot_modules;
 
 // Start the bot!
