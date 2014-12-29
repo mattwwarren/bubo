@@ -7,7 +7,7 @@ var bubo_bot = exports;
 
 function LoadModules(path) {
     fs.readdirSync(path).forEach(function(fname) {
-      if (fname.indexOf('\.js$') > -1) {
+      if (fname.indexOf('.js') > -1) {
         var modname = fname.substr(0, fname.search("\.js$"));
         bot_modules[modname] = require(path+"/"+fname);
       }
@@ -19,6 +19,7 @@ LoadModules(DIR);
 var PRIV_DIR = path_module.join(__dirname, 'private_plugins');
 LoadModules(PRIV_DIR);
 
+console.log(bot_modules);
 exports.module_holder = bot_modules;
 
 // Start the bot!
