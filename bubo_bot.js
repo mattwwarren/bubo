@@ -19,7 +19,6 @@ LoadModules(DIR);
 var PRIV_DIR = path_module.join(__dirname, 'private_plugins');
 LoadModules(PRIV_DIR);
 
-console.log(bot_modules);
 exports.module_holder = bot_modules;
 
 // Start the bot!
